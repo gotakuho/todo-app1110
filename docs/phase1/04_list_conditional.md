@@ -1,19 +1,19 @@
 # コマ4｜リストと条件付き表示
 
-| 項目 | 内容 |
-|------|------|
-| フェーズ | Phase 1 |
-| 所要時間 | 90分 |
-| 前提コマ | コマ3 stateとイベント・'use client' |
-| 次コマ | コマ5 TODOアプリ実装①（追加・完了・削除） |
+| 項目     | 内容                                      |
+| -------- | ----------------------------------------- |
+| フェーズ | Phase 1                                   |
+| 所要時間 | 90分                                      |
+| 前提コマ | コマ3 stateとイベント・'use client'       |
+| 次コマ   | コマ5 TODOアプリ実装①（追加・完了・削除） |
 
-##  目標
+## 目標
 
 - 配列を `map` で画面に並べ、`key` を正しく付けられる
 - `&&`・三項演算子・早期 return で、条件によって表示を切り替えられる
 - 配列の state を **新しい配列を作って** 更新できる（追加・削除・変更）
 
-##  導入
+## 導入
 
 ### 前回の振り返り
 
@@ -52,7 +52,7 @@ npm run dev
 - **絞り込み**：カテゴリのボタンで表示を切り替える
 - **注文**：配列の state に追加・削除する
 
-##  本題
+## 本題
 
 ### 1. 配列を map で並べる
 
@@ -88,11 +88,11 @@ Each child in a list should have a unique "key" prop.
 
 React は、並び替えや削除が起きたときに「どの `<li>` がどのデータか」を `key` で見分ける。`key` には **その要素を一意に表す値**（ID など）を使う。
 
-| key に使う値 | 評価 |
-|-------------|------|
-| データの `id` | ◎ 一番よい |
-| 重複しない文字列（名前など） | ○ 重複しないと保証できるなら |
-| 配列の番号（`index`） | △ 追加・削除・並び替えがあるとずれる |
+| key に使う値                 | 評価                                 |
+| ---------------------------- | ------------------------------------ |
+| データの `id`                | ◎ 一番よい                           |
+| 重複しない文字列（名前など） | ○ 重複しないと保証できるなら         |
+| 配列の番号（`index`）        | △ 追加・削除・並び替えがあるとずれる |
 
 ### 2. オブジェクトの配列を部品で並べる
 
@@ -121,8 +121,7 @@ export const menu = [
 export default function MenuItem({ item }) {
   return (
     <li style={{ padding: '4px 0' }}>
-      {item.name} {item.price}円
-      {item.soldOut && <span style={{ color: 'gray', marginLeft: '8px' }}>売り切れ</span>}
+      {item.name} {item.price}円{item.soldOut && <span style={{ color: 'gray', marginLeft: '8px' }}>売り切れ</span>}
     </li>
   )
 }
@@ -153,17 +152,17 @@ export default function Home() {
 
 ### 3. 条件付き表示の3つの書き方
 
-| 書き方 | 使いどころ | 例 |
-|--------|-----------|-----|
-| `条件 && <要素>` | 条件を満たすときだけ出す | `{item.soldOut && <span>売り切れ</span>}` |
-| `条件 ? <A> : <B>` | どちらか一方を出す | `{item.soldOut ? <span>売り切れ</span> : <button>注文</button>}` |
-| 早期 return | 条件によって部品全体を切り替える | `if (items.length === 0) return <p>ありません</p>` |
+| 書き方             | 使いどころ                       | 例                                                               |
+| ------------------ | -------------------------------- | ---------------------------------------------------------------- |
+| `条件 && <要素>`   | 条件を満たすときだけ出す         | `{item.soldOut && <span>売り切れ</span>}`                        |
+| `条件 ? <A> : <B>` | どちらか一方を出す               | `{item.soldOut ? <span>売り切れ</span> : <button>注文</button>}` |
+| 早期 return        | 条件によって部品全体を切り替える | `if (items.length === 0) return <p>ありません</p>`               |
 
 `&&` には1つ落とし穴がある。
 
 ```jsx
 const count = 0
-return <p>{count && '件あります'}</p>   // 画面に「0」と表示されてしまう
+return <p>{count && '件あります'}</p> // 画面に「0」と表示されてしまう
 ```
 
 `0 && ...` は `0` を返し、React は数値の `0` をそのまま表示する。数値で判定するときは `count > 0 && ...` のように **必ず true / false になる式** にする。
@@ -275,8 +274,7 @@ export default function MenuBoard({ items }) {
       <ul>
         {orders.map((order) => (
           <li key={order.orderId}>
-            {order.name} {order.price}円
-            <button onClick={() => removeOrder(order.orderId)}>取り消し</button>
+            {order.name} {order.price}円<button onClick={() => removeOrder(order.orderId)}>取り消し</button>
           </li>
         ))}
       </ul>
@@ -310,23 +308,23 @@ export default function MenuItem({ item, onAdd }) {
 #### なぜ push ではダメなのか
 
 ```jsx
-orders.push(newOrder)   // ✕ 元の配列を直接書き換える
-setOrders(orders)       //    同じ配列を渡しても React は「変わっていない」と判断する
+orders.push(newOrder) // ✕ 元の配列を直接書き換える
+setOrders(orders) //    同じ配列を渡しても React は「変わっていない」と判断する
 
-setOrders([...orders, newOrder])   // ○ 新しい配列を作って渡す
+setOrders([...orders, newOrder]) // ○ 新しい配列を作って渡す
 ```
 
 React は「前の state と新しい state が **同じもの（同じ配列）** か」で変更を判断する。中身を書き換えても配列そのものが同じなら、画面は更新されない。**配列やオブジェクトの state は、書き換えずに新しく作る**（**イミュータブル** な更新）。
 
-| やりたいこと | 書き方 |
-|-------------|--------|
-| 末尾に追加 | `[...arr, newItem]` |
-| 削除 | `arr.filter((x) => x.id !== id)` |
-| 1件だけ変更 | `arr.map((x) => (x.id === id ? { ...x, done: true } : x))` |
+| やりたいこと | 書き方                                                     |
+| ------------ | ---------------------------------------------------------- |
+| 末尾に追加   | `[...arr, newItem]`                                        |
+| 削除         | `arr.filter((x) => x.id !== id)`                           |
+| 1件だけ変更  | `arr.map((x) => (x.id === id ? { ...x, done: true } : x))` |
 
 > **スプレッド構文 `...` のおさらい**：`[...arr]` は配列の中身を展開して新しい配列にコピーする。`{ ...obj, done: true }` はオブジェクトをコピーして `done` だけ上書きする。
 
-##  演習
+## 演習
 
 ### 演習1（基本）：合計金額と件数を表示する
 
@@ -344,11 +342,13 @@ const total = orders.reduce((sum, order) => sum + order.price, 0)
 
 ```jsx
 // components/MenuBoard.js（注文リストの <ul> の下に追加）
-{orders.length > 0 && (
-  <p>
-    合計：{total}円（{orders.length}品）
-  </p>
-)}
+{
+  orders.length > 0 && (
+    <p>
+      合計：{total}円（{orders.length}品）
+    </p>
+  )
+}
 ```
 
 `reduce` は配列を1つの値にまとめるメソッド。`sum` に前回までの合計、`order` に今の要素が入り、最後の `0` が初期値。合計金額も **state にせず計算で出す**。
@@ -428,12 +428,14 @@ const total = orders.reduce((sum, order) => sum + order.price * order.quantity, 
 ```
 
 ```jsx
-{orders.map((order) => (
-  <li key={order.id}>
-    {order.name} × {order.quantity}
-    <button onClick={() => decreaseOrder(order.id)}>−</button>
-  </li>
-))}
+{
+  orders.map((order) => (
+    <li key={order.id}>
+      {order.name} × {order.quantity}
+      <button onClick={() => decreaseOrder(order.id)}>−</button>
+    </li>
+  ))
+}
 ```
 
 `map` で1件だけ変えて、`filter` で0件のものを消す。**変更も削除も「新しい配列を作る」** で統一できている。
@@ -465,7 +467,7 @@ const sortedItems =
 
 </details>
 
-##  まとめ
+## まとめ
 
 ### 今日できるようになったこと
 
@@ -483,7 +485,7 @@ const sortedItems =
 
 次回から新しいプロジェクト `todo-app` を作り、今日の「配列の state」を使って TODO アプリを組み立てる。このアプリを Phase 2 以降でテストし、自動デプロイまで育てていく。
 
-##  課題
+## 課題
 
 ### 基礎課題（必須）
 

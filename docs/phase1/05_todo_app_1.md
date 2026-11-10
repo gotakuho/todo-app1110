@@ -1,19 +1,19 @@
 # コマ5｜TODOアプリ実装①（追加・完了・削除）
 
-| 項目 | 内容 |
-|------|------|
-| フェーズ | Phase 1 |
-| 所要時間 | 90分 |
-| 前提コマ | コマ4 リストと条件付き表示 |
-| 次コマ | コマ6 TODOアプリ実装②（保存・ページ分け） |
+| 項目     | 内容                                      |
+| -------- | ----------------------------------------- |
+| フェーズ | Phase 1                                   |
+| 所要時間 | 90分                                      |
+| 前提コマ | コマ4 リストと条件付き表示                |
+| 次コマ   | コマ6 TODOアプリ実装②（保存・ページ分け） |
 
-##  目標
+## 目標
 
 - 画面を見て、どの部品に分け、**どこに state を置くか** を決められる
 - フォームの送信を `onSubmit` で受け取り、入力値を配列の state に追加できる
 - 親が持つ state を、子から props で渡された関数経由で更新できる（完了・削除）
 
-##  導入
+## 導入
 
 ### 前回の振り返り
 
@@ -51,7 +51,7 @@ app/page.js（Server Component：見出しを出すだけ）
 
 **TODO の配列はどこに置く？** → `TodoForm`（追加する側）も `TodoList`（表示する側）も使うので、**両方の親である `TodoApp`** に置く。複数の部品で使う state は **共通の親に持ち上げる**（**state のリフトアップ**）のが React の基本。
 
-##  本題
+## 本題
 
 ### 1. プロジェクトを作る
 
@@ -306,11 +306,11 @@ export default function TodoApp() {
 }
 ```
 
-| 関数 | やっていること |
-|------|---------------|
-| `addTodo` | 末尾に1件足した **新しい配列** を作る |
+| 関数         | やっていること                                                                |
+| ------------ | ----------------------------------------------------------------------------- |
+| `addTodo`    | 末尾に1件足した **新しい配列** を作る                                         |
 | `toggleTodo` | `map` で全件コピーし、該当の1件だけ `done` を反転したオブジェクトに差し替える |
-| `deleteTodo` | `filter` で該当の1件を除いた **新しい配列** を作る |
+| `deleteTodo` | `filter` で該当の1件を除いた **新しい配列** を作る                            |
 
 `remaining`（残り件数）は state にせず、`todos` から計算している。
 
@@ -329,7 +329,7 @@ git add .
 git commit -m "TODOの追加・完了・削除を実装"
 ```
 
-##  演習
+## 演習
 
 ### 演習1（基本）：件数表示を充実させる
 
@@ -348,11 +348,13 @@ const remaining = todos.length - doneCount
 
 ```jsx
 // components/TodoApp.js（return の中）
-{todos.length > 0 && (
-  <p>
-    全 {todos.length} 件 / 完了 {doneCount} 件 / 残り {remaining} 件
-  </p>
-)}
+{
+  todos.length > 0 && (
+    <p>
+      全 {todos.length} 件 / 完了 {doneCount} 件 / 残り {remaining} 件
+    </p>
+  )
+}
 ```
 
 </details>
@@ -433,7 +435,11 @@ export default function TodoFilter({ value, onChange }) {
   return (
     <div style={{ display: 'flex', gap: '8px', margin: '8px 0' }}>
       {filters.map((f) => (
-        <button key={f.value} onClick={() => onChange(f.value)} style={{ fontWeight: value === f.value ? 'bold' : 'normal' }}>
+        <button
+          key={f.value}
+          onClick={() => onChange(f.value)}
+          style={{ fontWeight: value === f.value ? 'bold' : 'normal' }}
+        >
           {f.label}
         </button>
       ))}
@@ -478,14 +484,14 @@ function clearDone() {
 }
 
 // return の中
-<button onClick={clearDone} disabled={doneCount === 0}>
+;<button onClick={clearDone} disabled={doneCount === 0}>
   完了済みを削除
 </button>
 ```
 
 </details>
 
-##  まとめ
+## まとめ
 
 ### 今日できるようになったこと
 
@@ -503,7 +509,7 @@ function clearDone() {
 
 今の TODO アプリは、ブラウザを再読み込みすると全部消えてしまう。次回は **localStorage** に保存して消えないようにし、`useEffect` と「サーバでは動かないコード」の扱い方を学ぶ。あわせて「このアプリについて」ページを追加し、Next.js のページ分け（ルーティング）と共通レイアウトを作る。
 
-##  課題
+## 課題
 
 ### 基礎課題（必須）
 

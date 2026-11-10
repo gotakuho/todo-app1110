@@ -1,19 +1,19 @@
 # コマ7｜GitHub連携・ブランチ・PR体験
 
-| 項目 | 内容 |
-|------|------|
-| フェーズ | Phase 1 |
-| 所要時間 | 90分 |
+| 項目     | 内容                                      |
+| -------- | ----------------------------------------- |
+| フェーズ | Phase 1                                   |
+| 所要時間 | 90分                                      |
 | 前提コマ | コマ6 TODOアプリ実装②（保存・ページ分け） |
-| 次コマ | コマ8 テスト入門とJestの導入 |
+| 次コマ   | コマ8 テスト入門とJestの導入              |
 
-##  目標
+## 目標
 
 - `todo-app` を GitHub リポジトリに push できる
 - 作業ブランチを切って機能を追加し、プルリクエスト（PR）を作ってマージできる
 - Issue と PR をつなげ、「何のための変更か」を記録に残せる
 
-##  導入
+## 導入
 
 ### 前回の振り返り
 
@@ -43,7 +43,7 @@ main       ●───●───────────────●  ← 
 feature/xxx      ●───●───●───●
 ```
 
-##  本題
+## 本題
 
 ### 1. GitHub CLI でログインする
 
@@ -58,12 +58,12 @@ gh auth login
 
 質問には次のように答える。
 
-| 質問 | 答え |
-|------|------|
-| Where do you use GitHub? | **GitHub.com** |
-| What is your preferred protocol? | **HTTPS** |
-| Authenticate Git with your GitHub credentials? | **Yes** |
-| How would you like to authenticate? | **Login with a web browser** |
+| 質問                                           | 答え                         |
+| ---------------------------------------------- | ---------------------------- |
+| Where do you use GitHub?                       | **GitHub.com**               |
+| What is your preferred protocol?               | **HTTPS**                    |
+| Authenticate Git with your GitHub credentials? | **Yes**                      |
+| How would you like to authenticate?            | **Login with a web browser** |
 
 表示された8桁のコードを控えて Enter。ブラウザでコードを入力して許可する（ブラウザが自動で開かない場合は、表示された URL をブラウザで開く）。
 
@@ -100,12 +100,12 @@ GitHub 上にリポジトリを作って push する。
 gh repo create todo-app --public --source=. --remote=origin --push
 ```
 
-| オプション | 意味 |
-|-----------|------|
-| `--public` | 公開リポジトリにする（Phase 4 の GitHub Pages で公開するため） |
-| `--source=.` | 今いるフォルダの中身を使う |
-| `--remote=origin` | GitHub 側を `origin` という名前で登録する |
-| `--push` | 作ったらすぐ push する |
+| オプション        | 意味                                                           |
+| ----------------- | -------------------------------------------------------------- |
+| `--public`        | 公開リポジトリにする（Phase 4 の GitHub Pages で公開するため） |
+| `--source=.`      | 今いるフォルダの中身を使う                                     |
+| `--remote=origin` | GitHub 側を `origin` という名前で登録する                      |
+| `--push`          | 作ったらすぐ push する                                         |
 
 ブラウザで確認する。
 
@@ -180,15 +180,15 @@ git commit -m "feat: すべて削除ボタンを追加"
 >
 > **コミットメッセージの書き方（Conventional Commits）**：先頭に種類を付ける。
 >
-> | 種類 | 意味 |
-> |------|------|
-> | `feat:` | 新機能 |
-> | `fix:` | バグ修正 |
-> | `docs:` | ドキュメント |
-> | `style:` | 見た目・書式の調整 |
+> | 種類        | 意味                       |
+> | ----------- | -------------------------- |
+> | `feat:`     | 新機能                     |
+> | `fix:`      | バグ修正                   |
+> | `docs:`     | ドキュメント               |
+> | `style:`    | 見た目・書式の調整         |
 > | `refactor:` | 動きを変えずにコードを整理 |
-> | `test:` | テストの追加・修正 |
-> | `chore:` | 設定ファイルなどの雑務 |
+> | `test:`     | テストの追加・修正         |
+> | `chore:`    | 設定ファイルなどの雑務     |
 >
 > この教材では以降この形で書く。履歴を見たときに何の変更か一目で分かる。
 
@@ -250,7 +250,7 @@ Issue #1 が「Closed」になっていることも確認する。
 gh issue list --state closed
 ```
 
-##  演習
+## 演習
 
 ### 演習1（基本）：Issue → ブランチ → PR → マージをもう1周
 
@@ -361,7 +361,7 @@ gh pr create --fill
 
 > 公開リポジトリなら、他人の PR にもコメントできる。**コードではなく変更について** 書く、「なぜそう思うか」を添える、の2点を意識する。
 
-##  まとめ
+## まとめ
 
 ### 今日できるようになったこと
 
@@ -379,7 +379,7 @@ gh pr create --fill
 
 Phase 2 に入る。次回は「なぜテストを書くのか」から始め、Next.js 公式の方法で **Jest** を `todo-app` に導入して、最初のテストを動かす。
 
-##  課題
+## 課題
 
 ### 基礎課題（必須）
 
