@@ -1,0 +1,21 @@
+name: Hello
+on:
+  push:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  greet:
+    runs-on: ubuntu-latest
+    steps:
+      - name: あいさつ
+        run: echo "Hello, GitHub Actions!"
+      - name: 実行した人を表示
+        run: echo "実行した人：${{ github.actor }}"
+      - name: ランナーを調べる
+        run: |
+          uname -a
+          node -v
+          npm -v
+          pwd
+          ls -la
