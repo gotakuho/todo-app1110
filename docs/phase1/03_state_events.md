@@ -1,19 +1,19 @@
 # コマ3｜stateとイベント・'use client'
 
-| 項目 | 内容 |
-|------|------|
-| フェーズ | Phase 1 |
-| 所要時間 | 90分 |
+| 項目     | 内容                             |
+| -------- | -------------------------------- |
+| フェーズ | Phase 1                          |
+| 所要時間 | 90分                             |
 | 前提コマ | コマ2 JSXとコンポーネント・props |
-| 次コマ | コマ4 リストと条件付き表示 |
+| 次コマ   | コマ4 リストと条件付き表示       |
 
-##  目標
+## 目標
 
 - 画面を変化させるには **state**（`useState`）が必要な理由を説明できる
 - `onClick` / `onChange` でイベントを受け取り、state を更新できる
 - `'use client'` を付けるべきコンポーネントと、付けなくてよいコンポーネントを見分けられる
 
-##  導入
+## 導入
 
 ### 前回の振り返り
 
@@ -46,7 +46,7 @@ npm run dev
 
 答えは **増えない**。React は「state が更新された」と知らされたときだけ画面を描き直す。普通の変数を書き換えても React は気づかない。今日はこの仕組みを体験する。
 
-##  本題
+## 本題
 
 ### 1. まずは失敗してみる：'use client' なしで useState
 
@@ -124,11 +124,11 @@ export default function Counter() {
 const [count, setCount] = useState(0)
 ```
 
-| 部分 | 意味 |
-|------|------|
-| `useState(0)` | 「初期値 0 の state を1つください」 |
-| `count` | 今の値 |
-| `setCount` | 値を更新する関数。呼ぶと **React が画面を描き直す** |
+| 部分           | 意味                                                                  |
+| -------------- | --------------------------------------------------------------------- |
+| `useState(0)`  | 「初期値 0 の state を1つください」                                   |
+| `count`        | 今の値                                                                |
+| `setCount`     | 値を更新する関数。呼ぶと **React が画面を描き直す**                   |
 | `[a, b] = ...` | 配列の **分割代入**。`useState` は `[今の値, 更新関数]` の2つ組を返す |
 
 名前は自由だが、`[xxx, setXxx]` とそろえるのがお約束。
@@ -136,8 +136,8 @@ const [count, setCount] = useState(0)
 **重要ルール：state は必ず更新関数で変える。**
 
 ```jsx
-count = count + 1      // ✕ 画面は変わらない（そもそも const なのでエラー）
-setCount(count + 1)    // ○ React に「変わったよ」と伝わる
+count = count + 1 // ✕ 画面は変わらない（そもそも const なのでエラー）
+setCount(count + 1) // ○ React に「変わったよ」と伝わる
 ```
 
 ### 4. イベントの書き方
@@ -233,7 +233,9 @@ export default function NameInput() {
         名前：
         <input value={name} onChange={(e) => setName(e.target.value)} />
       </label>
-      <p>こんにちは、{name}さん！（{name.length}文字）</p>
+      <p>
+        こんにちは、{name}さん！（{name.length}文字）
+      </p>
     </div>
   )
 }
@@ -270,15 +272,15 @@ export default function Home() {
 
 `'use client'` を付けるかどうかの目安：
 
-| こんなとき | どうする |
-|------------|---------|
+| こんなとき                                   | どうする                     |
+| -------------------------------------------- | ---------------------------- |
 | 表示するだけ（props を受け取って並べるだけ） | 付けない（Server Component） |
-| `useState` などのフックを使う | **付ける** |
-| `onClick` / `onChange` などのイベントを使う | **付ける** |
+| `useState` などのフックを使う                | **付ける**                   |
+| `onClick` / `onChange` などのイベントを使う  | **付ける**                   |
 
 `'use client'` は **必要な部品だけ** に付けるのがコツ。ページ全体に付けると、ブラウザに送る JavaScript が増えて重くなる。
 
-##  演習
+## 演習
 
 ### 演習1（基本）：Counter を props でカスタマイズする
 
@@ -461,7 +463,7 @@ export default function Counter({ initialCount = 0, step = 1, min = -Infinity, m
 
 </details>
 
-##  まとめ
+## まとめ
 
 ### 今日できるようになったこと
 
@@ -479,7 +481,7 @@ export default function Counter({ initialCount = 0, step = 1, min = -Infinity, m
 
 次回は **配列の state** を扱う。`map` でリストを表示し、条件によって表示を切り替える方法を学ぶ。これが TODO アプリの土台になる。
 
-##  課題
+## 課題
 
 ### 基礎課題（必須）
 
