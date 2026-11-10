@@ -5,9 +5,17 @@ import TodoFilter from './TodoFilter'
 import TodoForm from './TodoForm'
 import TodoList from './TodoList'
 import SampleLoader from './SampleLoader'
-import { addTodo, clearDone, countDone, countRemaining, deleteTodo, editTodo, filterTodos, toggleTodo } from '@/lib/todos'
+import {
+  addTodo,
+  clearDone,
+  countDone,
+  countRemaining,
+  deleteTodo,
+  editTodo,
+  filterTodos,
+  toggleTodo,
+} from '@/lib/todos'
 import { loadTodos, saveTodos } from '@/lib/storage'
-
 
 export default function TodoApp() {
   const [todos, setTodos] = useState(loadTodos)
