@@ -34,10 +34,10 @@ jobs:
           echo "コミット：$COMMIT_SHA"
           echo "リポジトリ：$REPOSITORY"
           echo "ランナーの OS：$RUNNER_OS"
-      - name: わざと失敗する
+      - name: package.json の名前を表示
         run: |
-          echo "これから失敗します"
-          exit 1
+          cat package.jsn
+          node -e "console.log(require('./package.json').name)"
   goodbye:
     needs: greet
     runs-on: ubuntu-latest
