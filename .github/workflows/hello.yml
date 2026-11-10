@@ -2,18 +2,36 @@ name: Hello
 on:
   push:
   workflow_dispatch:
+    inputs:
+      name:
+        description: あいさつする相手
+        required: true
+        default: 名無し
+        type: string
 permissions:
   contents: read
+env:
+  GREETING: こんにちは
 jobs:
-  greet:
+  prepare:
     runs-on: ubuntu-latest
     steps:
       - name: コードを取ってくる
         uses: actions/checkout@v7
       - name: あいさつ
         run: echo "Hello, GitHub Actions!"
-      - name: 実行した人を表示
-        run: echo "実行した人：${{ github.actor }}"
+      - name: 自分の情報
+        env:
+          ACTOR: ${{ github.actor }}
+          BRANCH_NAME: ${{ github.ref_name }}
+          EVENT_NAME: ${{ github.event_name }}
+        run: |
+          if [ "$EVENT_NAME" = "push" ]; then
+            echo "$ACTOR が $BRANCH_NAME ブランチに push しました"
+          else
+            echo "$ACTOR が $BRANCH_NAME ブランチで $EVENT_NAME を実行しました"
+          fi
+          TZ=Asia/Tokyo date
       - name: ランナーを調べる
         run: |
           uname -a
@@ -36,11 +54,27 @@ jobs:
           echo "ランナーの OS：$RUNNER_OS"
       - name: package.json の名前を表示
         run: |
-          cat package.jsn
+          cat package.json
           node -e "console.log(require('./package.json').name)"
-  goodbye:
-    needs: greet
+      - name: 入力した名前であいさつ
+        if: github.event_name == 'workflow_dispatch'
+        env:
+          INPUT_NAME: ${{ inputs.name }}
+        run: echo "$GREETING、${INPUT_NAME}さん"
+      - name: main ブランチだけ実行
+        if: github.ref_name == 'main'
+        run: echo "main ブランチで実行しました"
+      - name: 環境変数を2通りで表示
+        run: |
+          echo "$GREETING"
+          echo "${{ env.GREETING }}"
+  build:
+    needs: prepare
     runs-on: ubuntu-latest
     steps:
-      - name: お別れ
-        run: echo "greet が終わったので goodbye です"
+      - run: echo "ビルド"
+  check:
+    needs: prepare
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "チェック"
