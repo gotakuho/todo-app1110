@@ -1,0 +1,23 @@
+name: CI
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+jobs:
+  lint-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: コードを取ってくる
+        uses: actions/checkout@v7
+      - name: Node.js を用意する
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+      - name: 依存パッケージをインストール
+        run: npm ci
+      - name: Lint
+        run: npm run lint
+      - name: Build
+        run: npm run build
