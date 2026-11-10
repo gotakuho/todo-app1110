@@ -1,0 +1,23 @@
+name: Challenge - Schedule and Matrix
+on:
+  workflow_dispatch:
+  schedule:
+    # UTC 23:00 = 翌日 日本時間 08:00
+    - cron: "0 23 * * *"
+permissions:
+  contents: read
+jobs:
+  node-version:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [22, 24]
+    steps:
+      - name: Node.js を準備
+        uses: actions/setup-node@v7
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: バージョンと日本時間を表示
+        run: |
+          node -v
+          TZ=Asia/Tokyo date
