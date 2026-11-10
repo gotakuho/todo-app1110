@@ -8,6 +8,8 @@ jobs:
   greet:
     runs-on: ubuntu-latest
     steps:
+      - name: コードを取ってくる
+        uses: actions/checkout@v7
       - name: あいさつ
         run: echo "Hello, GitHub Actions!"
       - name: 実行した人を表示
@@ -19,3 +21,26 @@ jobs:
           npm -v
           pwd
           ls -la
+      - name: 実行の情報を表示
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          BRANCH_NAME: ${{ github.ref_name }}
+          COMMIT_SHA: ${{ github.sha }}
+          REPOSITORY: ${{ github.repository }}
+          RUNNER_OS: ${{ runner.os }}
+        run: |
+          echo "イベント：$EVENT_NAME"
+          echo "ブランチ：$BRANCH_NAME"
+          echo "コミット：$COMMIT_SHA"
+          echo "リポジトリ：$REPOSITORY"
+          echo "ランナーの OS：$RUNNER_OS"
+      - name: わざと失敗する
+        run: |
+          echo "これから失敗します"
+          exit 1
+  goodbye:
+    needs: greet
+    runs-on: ubuntu-latest
+    steps:
+      - name: お別れ
+        run: echo "greet が終わったので goodbye です"
